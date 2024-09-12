@@ -1,0 +1,43 @@
+components:
+  schemas:
+    CreateTodo: 
+      type: object
+      properties:
+        title:
+          type: string
+          description: Todo's Title
+        description:
+          type: string
+          description: Todo's Description
+    UpdateTodo: 
+      type: object
+      properties:
+        title:
+          type: string
+          description: Todo's Title
+        description:
+          type: string
+          description: Todo's Description
+    Todo:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Todo's Title
+        description:
+          type: string
+          description: Todo's Description
+        status:
+          type: enum
+          description: Todo's status
+          enum:
+            - created
+            - active
+            - done
+          example: create
+        date:
+          type: date
+          description: Todo's Created Date
+        user:
+          type: string
+          description: Todo's user id 

@@ -1,0 +1,88 @@
+components:
+  schemas:
+    Register:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The user name
+        firstName:
+          type: string
+          description: User's First Name
+        lastName:
+          type: string
+          description: User's Last Name
+        email: 
+          type: email
+          description: User's Email
+        password: 
+          type: password
+          description: User's Password
+    RegisterResponse:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        required:
+        - rootCause
+        properties:
+          Authorization:
+            type: string
+            description: JWT Token
+          RefreshToken: 
+            type: string
+            description: JWT Refresh Token
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The user name
+        password: 
+          type: password
+          description: User's Password
+    LoginResponse:
+      type: object
+      properties:
+        Authorization:
+          type: string
+          description: JWT Token
+        RefreshToken: 
+          type: string
+          description: JWT Refresh Token
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The user id record in the database
+        username:
+          type: string
+          description: The user name
+        firstName:
+          type: string
+          description: User's First Name
+        lastName:
+          type: string
+          description: User's Last Name
+        email: 
+          type: email
+          description: User's Email
+        date: 
+          type: date
+          description: User's Sign up Date
+  responses:
+    UnauthorizedError:
+      description: Unauthorized
+  securitySchemes:
+    Authorization:
+      name: Authorization
+      type: apiKey
+      scheme: bearer
+      bearerFormat: JWT
+      in: header
+    RefreshToken:
+      name: RefreshToken
+      type: apiKey
+      scheme: bearer
+      bearerFormat: JWT
+      in: header

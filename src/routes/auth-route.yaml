@@ -1,0 +1,68 @@
+tags:
+  - name: Auth
+    description: Authorization Routes
+
+/auth/login:
+  post:
+    tags:
+      - Auth
+    summary: Login
+    responses:
+      200:
+        description: Authorization Credentials
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginResponse'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Login'
+
+/auth/register:
+  post:
+    tags:
+      - Auth
+    summary: Register
+    parameters:
+      - name: loginAfterCreate
+        in: query
+        description: boolean parameter that specifies if we want to receive authorization credentials after register 
+        schema:
+          type : boolean
+    responses:
+      200:
+        description: Signup
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterResponse'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Register'
+/auth/refresh:
+  get:
+    tags:
+      - Auth
+    summary: Refresh Token
+    security:
+      - Authorization: []
+      - RefreshToken: []
+    responses:
+      200:
+        description: Refreshed Authorization Credentials
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginResponse'
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"
+            

@@ -1,0 +1,152 @@
+tags:
+  - name: Todos
+    description: Todos Routes
+
+/todo/get:
+  get:
+    tags:
+      - Todos
+    summary: Get All Todo's
+    security:
+      - Authorization: []
+    responses:
+      200:
+        description: Get Current User's Todo's
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Todo"
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"
+/todo/get/{id}:
+  get:
+    tags:
+      - Todos
+    summary: Get Todo
+    security:
+      - Authorization: []
+    parameters:
+      - name: id
+        in: path
+        description: Todo Id
+        schema:
+          type : string
+    responses:
+      200:
+        description: Get Current User's Todo By Id
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Todo"
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"
+/todo/create:
+  post:
+    tags:
+      - Todos
+    summary: Create Todo
+    security:
+      - Authorization: []
+    responses:
+      200:
+        description: Get Current User's Todo By Id
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: 
+                message:
+                  type: string
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateTodo"
+
+/todo/update/{id}:
+  post:
+    tags:
+      - Todos
+    summary: Update Todo
+    security:
+      - Authorization: []
+    parameters:
+      - name: id
+        in: path
+        description: Todo Id
+        schema:
+          type : string
+      - name: status
+        in: query
+        description: Todo Status
+        required: true
+        explode: true
+        schema:
+          type: string
+          default: created
+          enum:
+            - created
+            - active
+            - done
+    responses:
+      200:
+        description: Update Current User's Todo By Id
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: 
+                message:
+                  type: string
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UpdateTodo"
+/todo/delete/{id}:
+  post:
+    tags:
+      - Todos
+    summary: Delete Todo
+    security:
+      - Authorization: []
+    parameters:
+      - name: id
+        in: path
+        description: Todo Id
+        schema:
+          type : string
+    responses:
+      200:
+        description: Delete Current User's Todo By Id
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: 
+                message:
+                  type: string
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"

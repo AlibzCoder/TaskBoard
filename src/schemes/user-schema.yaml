@@ -1,0 +1,20 @@
+components:
+  schemas:
+    UpdateUser:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: User's First Name
+        lastName:
+          type: string
+          description: User's Last Name
+        email: 
+          type: email
+          description: User's Email
+        prevPassword:
+          type: password
+          description: User's Previous Password
+        password:
+          type: password
+          description: User's new Password

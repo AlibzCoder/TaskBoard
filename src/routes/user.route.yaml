@@ -1,0 +1,77 @@
+tags:
+  - name: User
+    description: User Routes
+
+/user:
+  get:
+    tags:
+      - User
+    summary: Current User
+    security:
+      - Authorization: []
+    responses:
+      200:
+        description: Get Current User
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"
+/user/update:
+  post:
+    tags:
+      - User
+    summary: Update User
+    description: Update Current User
+    security:
+      - Authorization: []
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UpdateUser"
+
+/user/delete:
+  post:
+    tags:
+      - User
+    summary: Delete User
+    security:
+      - Authorization: []
+    responses:
+      200:
+        description: Delete Current User
+        content:
+          application/json:
+            schema:
+              type: object
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            properties:
+              password:
+                type: password
+                description: User's Password

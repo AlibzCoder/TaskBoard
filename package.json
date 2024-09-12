@@ -5,16 +5,20 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"test": "jest",
-		"test:e2e": "jest --testPathPattern=src/e2e",
 		"prebuild": "del-cli dist/",
-		"build": "tsc && tsc-esm && tscp",
-		"start": "node dist/index.js",
+		"build:server": "npm install && tsc && tsc-esm && tscp",
+		"build:client": "cd client && npm install && npm run build",
+		"build": "npm run build:server && npm run build:client",
+		"start": "npm run build && npm run start:app",
+		"start:app": "node dist/index.js",
 		"start:dev": "npm run build && nodemon ./src/index.ts"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
+	"workspaces": [
+		"client/*"
+	],
 	"dependencies": {
 		"@types/mongoose": "^5.11.97",
 		"@vinejs/vine": "^2.1.0",

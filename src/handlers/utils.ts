@@ -21,7 +21,7 @@ export function getUserByAuthPayloadOrUserName(request: Request, username : stri
       .catch(()=>{rej(INTERNAL_ERROR)});
   });
 }
-export function UserDBDocToJson(user: User) {
+export function UserDBDocToJson(user: User | any) {
   if(user?.toJSON) user = user.toJSON();
   const { _id, __v, password, ...UserExcludedFields } = user;
   return Object.assign({ id: _id }, UserExcludedFields);

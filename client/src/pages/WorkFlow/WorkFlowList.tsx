@@ -4,7 +4,7 @@ import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOu
 import {
   WorkflowListItemProps,
   WorkflowListProps,
-} from "../types/compoentProps";
+} from "../../types/compoentProps";
 import WorkflowListItem from "./WorkFlowListItem";
 import { useDroppable } from "@dnd-kit/core";
 import {

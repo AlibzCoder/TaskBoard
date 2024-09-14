@@ -21,6 +21,25 @@ tags:
         content:
           schema:
               $ref: "#/components/schemas/responses/UnauthorizedError"
+/user/all:
+  get:
+    tags:
+      - User
+    summary: List of All User
+    security:
+      - Authorization: []
+    responses:
+      200:
+        description: List of All User
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"
 /user/update:
   post:
     tags:

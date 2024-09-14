@@ -9,7 +9,12 @@ import {
   HashPassword,
   UserDBDocToJson,
 } from "../handlers/utils";
-import { INCORRECT_PASSWORD } from "../consts";
+import {
+  INCORRECT_PASSWORD,
+  INTERNAL_ERROR,
+  USER_NOTFOUND_ERROR,
+} from "../consts";
+import UserDBSchema from "../db/user";
 
 export function getUser(request: Request, res: Response) {
   getUserByAuthPayloadOrUserName(request)
@@ -22,6 +27,20 @@ export function getUser(request: Request, res: Response) {
     })
     .catch((e) => {
       res.status(e?.responseCode ? e?.responseCode : 500).json(e);
+    });
+}
+export function getUsers(request: Request, res: Response) {
+  UserDBSchema.find()
+    .then((users: User[] | any) => {
+      if (!users) return res.status(500).json(INTERNAL_ERROR);
+      const _users: User[] = [];
+      users.forEach((user: User) => {
+        _users.push(UserDBDocToJson(user));
+      });
+      res.status(200).json(_users);
+    })
+    .catch((e) => {
+      res.status(500).json(e);
     });
 }
 
@@ -51,10 +70,10 @@ export function updateUser(req: Request, res: Response<User | any>) {
           );
           if (isMatch) {
             if (!isSamePassword) user.password = HashPassword(newUser.password);
-            if(newUser.firstName) user.firstName = newUser.firstName;
-            if(newUser.lastName) user.lastName = newUser.lastName;
-            if(newUser.email) user.email = newUser.email;
-            if(newUser.fullName) user.fullName = newUser.fullName;
+            if (newUser.firstName) user.firstName = newUser.firstName;
+            if (newUser.lastName) user.lastName = newUser.lastName;
+            if (newUser.email) user.email = newUser.email;
+            if (newUser.fullName) user.fullName = newUser.fullName;
             user
               .save()
               .then(() => {

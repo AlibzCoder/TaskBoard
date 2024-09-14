@@ -23,7 +23,7 @@ tags:
         content:
           schema:
               $ref: "#/components/schemas/responses/UnauthorizedError"
-/todo/get/{id}:
+/todo/get/{id}&{userName}:
   get:
     tags:
       - Todos
@@ -36,6 +36,11 @@ tags:
         description: Todo Id
         schema:
           type : string
+      - name: userName
+        in: path
+        description: Todo's user name
+        schema:
+          type : string
     responses:
       200:
         description: Get Current User's Todo By Id
@@ -43,6 +48,31 @@ tags:
           application/json:
             schema:
               $ref: "#/components/schemas/Todo"
+      401:
+        description: Unauthorized
+        content:
+          schema:
+              $ref: "#/components/schemas/responses/UnauthorizedError"
+/todo/getStatuses:
+  get:
+    tags:
+      - Todos
+    summary: Get Todo Statuses
+    security:
+      - Authorization: []
+    responses:
+      200:
+        description: Get Todo Statuses
+        content:
+          application/json:
+            schema:
+              type: string
+              default: created
+              enum:
+                - created
+                - active
+                - reviewed
+                - completed
       401:
         description: Unauthorized
         content:

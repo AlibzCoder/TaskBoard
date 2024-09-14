@@ -13,16 +13,32 @@ export const TodoSchema = new Schema<Todo>({
   description: {
     type: String
   },
+  assignedTo : {
+    type: String
+  },
   status: { 
     type: String,
-    enum: ['created', 'active', 'done'],
+    enum: ["created" , "active" , "reviewed" , "completed"],
     required: true,
     default : 'created'
   },
-  date: {
+  createdDate: {
     type: Date,
     default: Date.now,
   },
+  lastUpdatedDate: {
+    type: Date,
+    default: Date.now,
+  },
+  completedDate: {
+    type: Date
+  },
+  effort: {
+    type: Number
+  },
+  estimation: {
+    type: Number
+  }
 });
 
 const TodoDBSchema = model<Todo>("todo", TodoSchema);

@@ -8,10 +8,13 @@ import jwt from "jsonwebtoken";
 import { Todo } from "../types/todo";
 
 
-export function getUserByAuthPayloadOrUserName(request: Request, username : string | null = null) : Promise<User> {
+export function getUserByAuthPayloadOrUserName(request: Request | null, username : string | null = null) : Promise<User> {
   return new Promise((res, rej) => {
     const req = request as AuthorizedRequest;
-    const authPayload = req.tokenPayload?.data;
+    let authPayload = {username : ''}
+    if(req){
+      authPayload = req.tokenPayload?.data;
+    }
     if ((!authPayload || !authPayload?.username) && !username) return rej(USER_NOTFOUND_ERROR);
     UserDBSchema.findOne(username ? { username: username } : authPayload)
       .then((user: User | any) => {

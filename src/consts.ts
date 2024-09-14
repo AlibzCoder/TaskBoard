@@ -30,16 +30,18 @@ export const Routes = {
   User: {
     index: "user",
     GetUser: "/",
+    GetUsers: "/all",
     DeleteUser: "/delete",
     UpdateUser: "/update"
   },
   Todo: {
     index: "todo",
     GetTodos: "/get",
-    GetTodo: "/get/:id",
+    GetTodo: "/get/:id&:userName",
     DeleteTodo: "/delete/:id",
     UpdateTodo: "/update/:id",
-    CreateTodo: "/create"
+    CreateTodo: "/create",
+    GetStatuses: "/getStatuses"
   },
 };
 

@@ -1,5 +1,5 @@
 import {useDraggable} from '@dnd-kit/core';
-import { DraggableWrapperProps } from '../types/compoentProps';
+import { DraggableWrapperProps } from '../../types/compoentProps';
 
 
 

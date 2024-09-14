@@ -9,6 +9,12 @@ components:
         description:
           type: string
           description: Todo's Description
+        estimation:
+          type: number
+          description: Todo's Estimation
+        userName:
+          type: string
+          description: Assign to username
     UpdateTodo: 
       type: object
       properties:
@@ -18,6 +24,15 @@ components:
         description:
           type: string
           description: Todo's Description
+        estimation:
+          type: number
+          description: Todo's Estimation
+        effort:
+          type: number
+          description: Todo's Effort
+        userName:
+          type: string
+          description: Assign to username
     Todo:
       type: object
       properties:
@@ -33,11 +48,27 @@ components:
           enum:
             - created
             - active
-            - done
+            - reviewed
+            - completed
           example: create
-        date:
+        createdDate:
           type: date
           description: Todo's Created Date
+        lastUpdatedDate:
+          type: date
+          description: Todo's Last Updated Date
+        completedDate:
+          type: date
+          description: Todo's Completed Date
         user:
           type: string
           description: Todo's user id 
+        estimation:
+          type: number
+          description: Todo's Estimation
+        effort:
+          type: number
+          description: Todo's Effort
+        assignedTo:
+          type: string
+          description: full name of user assign to 

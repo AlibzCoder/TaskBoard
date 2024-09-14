@@ -6,8 +6,8 @@ import {
   Typography,
 } from "@mui/material";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
-import { Truncate } from "../util";
-import { WorkflowListItemComponentProps } from "../types/compoentProps";
+import { Truncate } from "../../util";
+import { WorkflowListItemComponentProps } from "../../types/compoentProps";
 import React from "react";
 import SortableTaskItem from "./SortableTaskItem";
 import { useSortable } from "@dnd-kit/sortable";

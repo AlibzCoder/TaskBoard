@@ -12,12 +12,12 @@ import {
 import {
   WorkItemModalContentProps,
   WorkItemModalProps,
-} from "../types/compoentProps";
+} from "../../types/compoentProps";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
-import DisplableEditTextField from "../components/DisplableEditTextField";
+import DisplableEditTextField from "../../components/DisplableEditTextField";
 import SaveIcon from "@mui/icons-material/Save";
 import { useEffect, useMemo, useState } from "react";
-import { formatDate, getRelativeDate, IsArray } from "../util";
+import { formatDate, getRelativeDate, IsArray } from "../../util";
 import { blue, lightBlue } from "@mui/material/colors";
 
 const style = {

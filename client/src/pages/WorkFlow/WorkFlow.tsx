@@ -4,7 +4,7 @@ import {
   WorkflowListItemComponentProps,
   WorkflowListItemProps,
   WorkItemModalContentProps,
-} from "../types/compoentProps";
+} from "../../types/compoentProps";
 import WorkflowList from "./WorkFlowList";
 import {
   closestCorners,
@@ -23,11 +23,11 @@ import {
 } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import WorkflowListItem from "./WorkFlowListItem";
-import { IsArray, IsNumber } from "../util";
+import { IsArray, IsNumber } from "../../util";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { blue, blueGrey, green, lightBlue } from "@mui/material/colors";
 import WorkItemModal from "./WorkItemModal";
-import { User } from "../types/todos";
+import { User } from "../../types/todos";
 
 const users : User[] = [
   {

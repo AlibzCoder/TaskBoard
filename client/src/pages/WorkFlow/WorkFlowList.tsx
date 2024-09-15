@@ -25,11 +25,7 @@ export default function WorkflowList(props: WorkflowListProps) {
         : {},
     [currentUserFilter]
   );
-  const {
-    data: tasksList,
-    isLoading: isLoadingTasks,
-    refetch: refetchTasks,
-  } = useGetAllTodosQuery(getTodoFilter);
+  const { refetch: refetchTasks } = useGetAllTodosQuery(getTodoFilter);
 
   const { setNodeRef } = useDroppable({
     id: workFlowItem.id,
@@ -67,6 +63,8 @@ export default function WorkflowList(props: WorkflowListProps) {
       >
         <SortableContext
           id={workFlowItem.id}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          /*@ts-ignore*/
           items={workFlowTasks}
           strategy={verticalListSortingStrategy}
         >
@@ -86,7 +84,7 @@ export default function WorkflowList(props: WorkflowListProps) {
         <AddWorkItemModal
           open={openAddModal}
           onClose={() => {
-            refetchTasks()
+            refetchTasks();
             setOpenAddModal(false);
           }}
         />

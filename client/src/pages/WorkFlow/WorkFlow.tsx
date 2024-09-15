@@ -20,7 +20,7 @@ import {
 } from "@dnd-kit/core";
 import { useEffect, useMemo, useState } from "react";
 import WorkflowListItem from "./WorkFlowListItem";
-import { capitalizeFirstLetter, IsArray, IsNumber } from "../../util";
+import { capitalizeFirstLetter, IsArray } from "../../util";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { blue, blueGrey } from "@mui/material/colors";
 import WorkItemModal from "./WorkItemModal";
@@ -36,7 +36,7 @@ import { Loading } from "../../components/Loading/Loading";
 import WorkFlowFilter from "./WorkFlowFilter";
 import { useAppSelector } from "../../hooks/reduxHooks";
 
-export default function Workflow(props: any) {
+export default function Workflow() {
   const [workflowStepsData, setWorkflowStepsData] = useState<{
     [key: string]: TaskItem[];
   }>({});
@@ -50,14 +50,12 @@ export default function Workflow(props: any) {
 
   const {
     data: usersList = [],
-    isLoading: isLoadingUsersList,
-    refetch: refetchAllUsersList,
+    isLoading: isLoadingUsersList
   } = useGetAllUsersQuery();
 
   const {
     data: tasksStatuses,
-    isLoading: isLoadingTasksStatuses,
-    refetch: refetchDefinedStatuses,
+    isLoading: isLoadingTasksStatuses
   } = useGetDefinedStatusesQuery();
 
   const getTodoFilter = useMemo(

@@ -1,10 +1,7 @@
 import {
-  Autocomplete,
   Box,
   Button,
-  Fab,
   FormControl,
-  IconButton,
   InputLabel,
   MenuItem,
   Modal,
@@ -21,14 +18,13 @@ import {
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import DisplableEditTextField from "../../components/DisplableEditTextField";
 import SaveIcon from "@mui/icons-material/Save";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   capitalizeFirstLetter,
   formatDate,
   getRelativeDate,
-  IsArray,
 } from "../../util";
-import { blue, lightBlue } from "@mui/material/colors";
+import { blue } from "@mui/material/colors";
 import {
   useDeleteTaskMutation,
   useGetAllUsersQuery,
@@ -60,7 +56,6 @@ const WorkItemModalContent = (props: WorkItemModalContentProps) => {
     effort,
     estimation,
     description,
-    assignedTo,
     createdDate,
     lastUpdatedDate,
     completedDate,
@@ -71,13 +66,11 @@ const WorkItemModalContent = (props: WorkItemModalContentProps) => {
   const userstate = useAppSelector((state) => state.user);
   const {
     data: usersList = [],
-    isLoading: isLoadingUsersList,
-    refetch: refetchAllUsersList,
+    isLoading: isLoadingUsersList
   } = useGetAllUsersQuery();
   const {
     data: tasksStatuses,
-    isLoading: isLoadingTasksStatuses,
-    refetch: refetchDefinedStatuses,
+    isLoading: isLoadingTasksStatuses
   } = useGetDefinedStatusesQuery();
 
   const [assignedToUser, setAssignedToUser] = useState<string | any>(user);

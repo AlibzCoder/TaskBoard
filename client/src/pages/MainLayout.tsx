@@ -8,7 +8,6 @@ import { doLogout } from "../store/slices/authSlice";
 const MainLayout: React.FC = () => {
   const [gotUser, setGotUser] = useState(false);
   const dispatch = useAppDispatch();
-  const location = useLocation();
 
   useEffect(() => {
     if (!gotUser) {

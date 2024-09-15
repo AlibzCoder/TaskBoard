@@ -2,7 +2,7 @@ import { Box, Card, Link, TextField, Typography } from "@mui/material";
 import { FormControl } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
-import { doLogin, doSignUp } from "../../store/slices/authSlice";
+import { doSignUp } from "../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { emailRegex, userNamePattern } from "../../util/consts";
@@ -61,7 +61,7 @@ function SignUpPage() {
     );
   };
 
-  const handleSubmit = (e: Event | any) => {
+  const handleSubmit = () => {
     handleValidation();
     if (
       !userName ||

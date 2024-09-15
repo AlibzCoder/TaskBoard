@@ -6,14 +6,10 @@ import { setCurrentUserFilter } from "../../store/slices/userSlice";
 
 const WorkFlowFilter = () => {
   const dispatch = useDispatch();
-  const {
-    data: usersList = [],
-    isLoading: isLoadingUsersList,
-    refetch: refetchAllUsersList,
-  } = useGetAllUsersQuery();
+  const { data: usersList = [] } = useGetAllUsersQuery();
 
   const userstate = useAppSelector((state) => state.user);
-  
+
   return (
     <Box
       sx={{
@@ -37,7 +33,9 @@ const WorkFlowFilter = () => {
       >
         <MenuItem value={"all"}>All</MenuItem>
         {usersList.map((item) => (
-          <MenuItem value={item.username}>{userstate.user?.username === item.username ? "@Me" : item.fullName}</MenuItem>
+          <MenuItem value={item.username}>
+            {userstate.user?.username === item.username ? "@Me" : item.fullName}
+          </MenuItem>
         ))}
       </Select>
     </Box>

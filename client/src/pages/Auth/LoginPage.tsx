@@ -38,7 +38,7 @@ function LoginPage() {
     );
   };
 
-  const handleSubmit = (e: Event | any) => {
+  const handleSubmit = () => {
     handleValidation();
     if (!userName || !password || userNameValid || passwordValid) return;
     setLoading(true);

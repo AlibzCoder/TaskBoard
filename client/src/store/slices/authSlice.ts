@@ -43,7 +43,7 @@ export const doSignUp = createAsyncThunk(
 
 export const doLogout = createAsyncThunk(
   "auth/doLogout",
-  (payload, { dispatch }) => {
+  (_payload, { dispatch }) => {
     deleteToken();
     deleteUser();
     dispatch(setUser(null));

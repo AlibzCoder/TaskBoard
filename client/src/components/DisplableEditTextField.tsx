@@ -1,7 +1,6 @@
 import { TextField, Typography } from "@mui/material";
 import { DisplableEditTextFieldProps } from "../types/compoentProps";
 import { useEffect, useRef, useState } from "react";
-import { IsDomElement } from "../util";
 
 const DisplableEditTextField = (props: DisplableEditTextFieldProps) => {
   const { textFieldProps, typographyProps, shouldExtend = false, ...otherProps } = props;

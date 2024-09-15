@@ -5,7 +5,6 @@ import {
   InputLabel,
   MenuItem,
   Modal,
-  ModalProps,
   Select,
   TextField,
   Typography,
@@ -35,21 +34,11 @@ const style = {
   boxShadow: 24,
 };
 
-const AddWorkItemModal = (props: {
-    open: boolean,
-    onClose: () => void
-}) => {
+const AddWorkItemModal = (props: { open: boolean; onClose: () => void }) => {
   const userstate = useAppSelector((state) => state.user);
-  const {
-    data: usersList = [],
-    isLoading: isLoadingUsersList,
-    refetch: refetchAllUsersList,
-  } = useGetAllUsersQuery();
-  const {
-    data: tasksStatuses,
-    isLoading: isLoadingTasksStatuses,
-    refetch: refetchDefinedStatuses,
-  } = useGetDefinedStatusesQuery();
+  const { data: usersList = [], isLoading: isLoadingUsersList } =
+    useGetAllUsersQuery();
+  const { isLoading: isLoadingTasksStatuses } = useGetDefinedStatusesQuery();
 
   const [assignedToUser, setAssignedToUser] = useState<string | any>(
     userstate.user?.id
@@ -64,18 +53,24 @@ const AddWorkItemModal = (props: {
 
   function handleAddTask() {
     const user = usersList.find((u) => u.id === assignedToUser);
-    if(!title || (typeof title === 'string' && title.trim().length < 0)) return setError('Please Enter Title')
-    if(!description || (typeof description === 'string' && description.trim().length < 0)) return setError('Please Enter Description')
-    if(!user) return setError('Unknown Error, Please try Again')
+    if (!title || (typeof title === "string" && title.trim().length < 0))
+      return setError("Please Enter Title");
+    if (
+      !description ||
+      (typeof description === "string" && description.trim().length < 0)
+    )
+      return setError("Please Enter Description");
+    if (!user) return setError("Unknown Error, Please try Again");
 
     const payload = {
-        title, description,
-        estimation: !estimation ? 0 : estimation,
-        userName: user.username
+      title,
+      description,
+      estimation: !estimation ? 0 : estimation,
+      userName: user.username,
     };
-    addTask(payload).then(()=>{
-        if(props.onClose) props.onClose()
-    })
+    addTask(payload).then(() => {
+      if (props.onClose) props.onClose();
+    });
   }
 
   const isLoading =

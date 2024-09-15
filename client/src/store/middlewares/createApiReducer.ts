@@ -24,14 +24,12 @@ export const apiReducerSlice = createApi({
 });
 
 export const {
-  // useGetConnectionsQuery,
-  // useGetServersQuery,
-  // useAddConnectionMutation,
-  // useUpdateConnectionMutation,
-  // useDeleteConnectionMutation,
-  // useAddServerMutation,
-  // useEditServerMutation,
-  // useDeleteServerMutation,
+  useGetAllUsersQuery,
+  useGetDefinedStatusesQuery,
+  useGetAllTodosQuery,
+  useAddTaskMutation,
+  useUpdateTaskMutation,
+  useDeleteTaskMutation,
   middleware: ApiMiddleware,
   reducerPath: ApiReducerPath,
   reducer: ApiReducer,

@@ -6,15 +6,22 @@ import { userInfo } from '../../api/auth.api';
 
 export interface UserState {
   user: UserModel | null;
+  currentUserFilter: string | null
 }
 
 const initialState: UserState = {
   user: readUser(),
+  currentUserFilter : ''
 };
+
+export const setCurrentUserFilter = createAction<PrepareAction<string | null>>('user/currentUserFilter', (username : string | null) => {
+  return {
+    payload: username
+  }
+});
 
 export const setUser = createAction<PrepareAction<UserModel | null>>('user/setUser', (user) => {
   persistUser(user);
-
   return {
     payload: user,
   };
@@ -37,6 +44,9 @@ export const userSlice = createSlice({
     });
     builder.addCase(setUser, (state, action) => {
       state.user = action.payload;
+    });
+    builder.addCase(setCurrentUserFilter, (state, action) => {
+      state.currentUserFilter = action.payload;
     });
   },
 });

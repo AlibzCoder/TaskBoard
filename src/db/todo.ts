@@ -1,6 +1,9 @@
 import { Todo } from "../types/todo";
 import { model, Schema } from "mongoose";
 
+export const statuses = ["created" , "active" , "reviewed" , "completed"];
+export const completedStatusKey = "completed";
+
 export const TodoSchema = new Schema<Todo>({
   user: { 
     type: Schema.ObjectId,
@@ -18,7 +21,7 @@ export const TodoSchema = new Schema<Todo>({
   },
   status: { 
     type: String,
-    enum: ["created" , "active" , "reviewed" , "completed"],
+    enum: statuses,
     required: true,
     default : 'created'
   },

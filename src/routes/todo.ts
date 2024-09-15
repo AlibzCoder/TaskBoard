@@ -14,8 +14,6 @@ const TodoRouter = Router();
 TodoRouter.use(AuthMiddleware);
 // /api/todo
 TodoRouter.get(Routes.Todo.GetTodos, getTodos);
-// /api/todo/:id:userName
-TodoRouter.get(Routes.Todo.GetTodo, getTodos);
 // /api/todo/getStatuses
 TodoRouter.get(Routes.Todo.GetStatuses, getStatuses);
 // /api/todo/create

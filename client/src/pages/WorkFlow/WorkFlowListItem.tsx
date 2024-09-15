@@ -9,7 +9,6 @@ import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import { Truncate } from "../../util";
 import { WorkflowListItemComponentProps } from "../../types/compoentProps";
 import React from "react";
-import SortableTaskItem from "./SortableTaskItem";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
@@ -25,8 +24,8 @@ export default function WorkflowListItem(
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: item.id });
-
+  } = useSortable({ id: item._id });
+  
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -39,7 +38,7 @@ export default function WorkflowListItem(
 
   return (
     <Box
-      key={item.id}
+      key={item._id}
       sx={{ mb: 2 }}
       className="workflow-task-item-wrapper"
       ref={setNodeRef}

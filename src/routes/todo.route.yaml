@@ -23,7 +23,7 @@ tags:
         content:
           schema:
               $ref: "#/components/schemas/responses/UnauthorizedError"
-/todo/get/{id}&{userName}:
+/todo/get/:
   get:
     tags:
       - Todos
@@ -32,12 +32,12 @@ tags:
       - Authorization: []
     parameters:
       - name: id
-        in: path
+        in: query
         description: Todo Id
         schema:
           type : string
       - name: userName
-        in: path
+        in: query
         description: Todo's user name
         schema:
           type : string
@@ -107,7 +107,7 @@ tags:
           schema:
             $ref: "#/components/schemas/CreateTodo"
 
-/todo/update/{id}:
+/todo/update/:
   post:
     tags:
       - Todos
@@ -116,22 +116,10 @@ tags:
       - Authorization: []
     parameters:
       - name: id
-        in: path
+        in: query
         description: Todo Id
         schema:
           type : string
-      - name: status
-        in: query
-        description: Todo Status
-        required: true
-        explode: true
-        schema:
-          type: string
-          default: created
-          enum:
-            - created
-            - active
-            - done
     responses:
       200:
         description: Update Current User's Todo By Id
@@ -152,7 +140,7 @@ tags:
         application/json:
           schema:
             $ref: "#/components/schemas/UpdateTodo"
-/todo/delete/{id}:
+/todo/delete/:
   post:
     tags:
       - Todos
@@ -161,7 +149,7 @@ tags:
       - Authorization: []
     parameters:
       - name: id
-        in: path
+        in: query
         description: Todo Id
         schema:
           type : string

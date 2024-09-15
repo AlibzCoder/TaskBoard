@@ -109,7 +109,7 @@ h6 {
   width: 100vw;
   display: flex;
   overflow: hidden;
-  padding: 3em;
+  padding: 1em;
   .workflow-devider-container {
     width: 100%;
     height: 85vh;
@@ -199,6 +199,14 @@ h6 {
     }
   }
   
+}
+.loading-overlay{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
 }
 
 .displable-edit-text-field{

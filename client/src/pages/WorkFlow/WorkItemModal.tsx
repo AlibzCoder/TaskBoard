@@ -3,12 +3,17 @@ import {
   Box,
   Button,
   Fab,
+  FormControl,
   IconButton,
+  InputLabel,
+  MenuItem,
   Modal,
+  Select,
   TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import {
   WorkItemModalContentProps,
   WorkItemModalProps,
@@ -17,8 +22,22 @@ import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import DisplableEditTextField from "../../components/DisplableEditTextField";
 import SaveIcon from "@mui/icons-material/Save";
 import { useEffect, useMemo, useState } from "react";
-import { formatDate, getRelativeDate, IsArray } from "../../util";
+import {
+  capitalizeFirstLetter,
+  formatDate,
+  getRelativeDate,
+  IsArray,
+} from "../../util";
 import { blue, lightBlue } from "@mui/material/colors";
+import {
+  useDeleteTaskMutation,
+  useGetAllUsersQuery,
+  useGetDefinedStatusesQuery,
+  useUpdateTaskMutation,
+} from "../../store/middlewares/createApiReducer";
+import { useAppSelector } from "../../hooks/reduxHooks";
+import { UpdateTaskRequestModel } from "../../types/api";
+import { Loading } from "../../components/Loading/Loading";
 
 const style = {
   position: "absolute",
@@ -34,8 +53,9 @@ const style = {
 };
 
 const WorkItemModalContent = (props: WorkItemModalContentProps) => {
-  const { workFlowSteps, workItem, users } = props;
+  const { workFlowSteps, workItem, doCose } = props;
   const {
+    _id,
     title,
     effort,
     estimation,
@@ -44,61 +64,94 @@ const WorkItemModalContent = (props: WorkItemModalContentProps) => {
     createdDate,
     lastUpdatedDate,
     completedDate,
+    status,
+    user,
   } = workItem;
 
-  const currentWorkState = useMemo(
-    () => findWorkStepByStatusOrLabel(workItem.status),
-    [workItem]
-  );
+  const userstate = useAppSelector((state) => state.user);
+  const {
+    data: usersList = [],
+    isLoading: isLoadingUsersList,
+    refetch: refetchAllUsersList,
+  } = useGetAllUsersQuery();
+  const {
+    data: tasksStatuses,
+    isLoading: isLoadingTasksStatuses,
+    refetch: refetchDefinedStatuses,
+  } = useGetDefinedStatusesQuery();
 
-  const [edittedAssignedTo, setEditedAssignedTo] = useState<string | any>(
-    assignedTo
-  );
+  const [assignedToUser, setAssignedToUser] = useState<string | any>(user);
+  const [wordkItemState, setWorkItemState] = useState(status);
+
   const [edittedTitle, setEditedTitle] = useState(title);
   const [edittedDescription, setEditedDescription] = useState(description);
   const [edittedEffort, setEditedEffort] = useState(effort);
   const [edittedEstimation, setEditedEstimation] = useState(estimation);
-  const [edittedWorkState, setEditedWorkState] = useState(currentWorkState);
 
-  const workflowStatesNames = useMemo(
-    () =>
-      IsArray(workFlowSteps)
-        ? workFlowSteps.map((item) => item.shortLabel)
-        : edittedWorkState?.shortLabel
-        ? [edittedWorkState.shortLabel]
-        : [],
-    [workFlowSteps]
+
+  const currentWorkStateOptions = useMemo(
+    () => findWorkStepByStatusOrLabel(workItem.status),
+    [wordkItemState]
   );
-  const userNames = useMemo(
-    () =>
-      IsArray(users)
-        ? users.map((item) => item.name)
-        : assignedTo
-        ? [assignedTo]
-        : [],
-    [users]
-  );
+
+
+  const [updateTask, { isLoading: isWaitingForTaskUpdate }] = useUpdateTaskMutation();
+  const [deleteTask, { isLoading: isWaitingForTaskDelete }] = useDeleteTaskMutation();
+
+
+  const handleUpdateTask = () => {
+    let payload : UpdateTaskRequestModel = {
+      param: {
+        id: _id
+      }
+    };
+    if(assignedToUser !== user && assignedToUser) payload = {...payload, userName: assignedToUser};
+    if(wordkItemState !== status && wordkItemState) payload = {...payload, status: wordkItemState};
+    if(edittedTitle !== title && edittedTitle) payload = {...payload, title: edittedTitle};
+    if(edittedDescription !== description && edittedDescription) payload = {...payload, description: edittedDescription};
+    if(edittedEffort !== effort && edittedEffort) payload = {...payload, effort: edittedEffort};
+    if(edittedEstimation !== estimation && edittedEstimation) payload = {...payload, estimation: edittedEstimation};
+    if(Object.keys(payload).length > 1){
+      updateTask(payload).then(()=>{
+        if(doCose) doCose(false)
+      })
+    }
+  }
+
+  const handleDeleteTask = () => {
+    deleteTask({
+      param: {
+        id: _id
+      }
+    }).then(()=>{
+      if(doCose) doCose(false)
+    })
+  }
 
   function findWorkStepByStatusOrLabel(input: string | any) {
     if (input && typeof input === "string" && input.length > 0) {
-      const item = workFlowSteps.find(
-        (step) =>
-          step.id.toLocaleLowerCase().includes(input.toLocaleLowerCase()) ||
-          step.label.toLocaleLowerCase().includes(input.toLocaleLowerCase())
-      );
-      console.log(item);
+      const item = workFlowSteps.find((step) => step.id === wordkItemState);
       if (item) return item;
     }
     return workFlowSteps[0];
   }
 
+  const isLoading = isLoadingTasksStatuses || isLoadingUsersList || isWaitingForTaskDelete || isWaitingForTaskUpdate
+
   return (
     <Box sx={style}>
+      {isLoading ? (
+        <Box className="loading-overlay">
+          <Loading />
+        </Box>
+      ) : (
+        <></>
+      )}
       <Box
         sx={{
           width: "100%",
           height: "1em",
-          bgcolor: edittedWorkState?.color,
+          bgcolor: currentWorkStateOptions?.color,
         }}
       ></Box>
       <Box sx={{ p: 4, pt: 2 }}>
@@ -115,7 +168,7 @@ const WorkItemModalContent = (props: WorkItemModalContentProps) => {
             fontSize="large"
             style={{
               marginRight: "0.25em",
-              color: edittedWorkState?.color,
+              color: currentWorkStateOptions?.color,
             }}
           />
           <Box
@@ -230,9 +283,19 @@ const WorkItemModalContent = (props: WorkItemModalContentProps) => {
               }}
             >
               <Button
+                startIcon={<DeleteOutlineIcon />}
+                variant="contained"
+                color="error"
+                style={{margin:"0 1em"}}
+                onClick={handleDeleteTask}
+              >
+                Remove
+              </Button>
+              <Button
                 startIcon={<SaveIcon />}
                 variant="contained"
                 style={{ backgroundColor: blue.A700 }}
+                onClick={handleUpdateTask}
               >
                 Save
               </Button>
@@ -247,43 +310,45 @@ const WorkItemModalContent = (props: WorkItemModalContentProps) => {
               marginTop: "0.5em",
             }}
           >
-            <Autocomplete
-              disablePortal
-              options={userNames}
-              sx={{ width: "100%", p: 0 }}
-              value={edittedAssignedTo}
-              onChange={(event: any, newValue: string | null) => {
-                setEditedAssignedTo(newValue);
-              }}
-              inputValue={edittedAssignedTo}
-              renderInput={(params: object | any) => (
-                <TextField
-                  {...params}
-                  variant="standard"
-                  size="small"
-                  label="Assigned To"
-                />
-              )}
-            />
-            <Autocomplete
-              disablePortal
-              options={workflowStatesNames}
-              sx={{ width: "100%", p: 0 }}
-              value={edittedWorkState?.shortLabel}
-              onChange={(event: any, newValue: string | null) => {
-                setEditedWorkState(findWorkStepByStatusOrLabel(newValue));
-              }}
-              inputValue={edittedWorkState?.shortLabel}
-              renderInput={(params: object | any) => (
-                <TextField
-                  {...params}
-                  variant="standard"
-                  size="small"
-                  label="State"
-                />
-              )}
-            />
-            {edittedWorkState.id === "completed" && completedDate ? (
+            <FormControl fullWidth>
+              <InputLabel id="work-item-modal-form-assigned-to-label">
+                Assigned To
+              </InputLabel>
+              <Select
+                labelId="work-item-modal-form-assigned-to-label"
+                value={assignedToUser}
+                label="Assigned To"
+                onChange={(e) => setAssignedToUser(e.target.value)}
+              >
+                {usersList.map((item) => (
+                  <MenuItem value={item.id}>
+                    {userstate.user?.id === item.id ? "@Me" : item.fullName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel id="work-item-modal-form-state-label">
+                State
+              </InputLabel>
+              <Select
+                labelId="work-item-modal-form-state-label"
+                value={wordkItemState}
+                label="State"
+                onChange={(e) => setWorkItemState(e.target.value)}
+              >
+                {tasksStatuses ? (
+                  tasksStatuses.enum.map((item) => (
+                    <MenuItem value={item}>
+                      {capitalizeFirstLetter(item)}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <></>
+                )}
+              </Select>
+            </FormControl>
+            {wordkItemState === "completed" && completedDate ? (
               <Tooltip title={getRelativeDate(completedDate)} placement="right">
                 <Typography
                   component="span"
@@ -305,6 +370,9 @@ const WorkItemModalContent = (props: WorkItemModalContentProps) => {
               variant="standard"
               size="small"
               label="Effort"
+              style={{
+                margin: '0.25em 0 0.75em 0'
+              }}
             />
             <TextField
               onChange={({ target }) => {
@@ -327,7 +395,7 @@ const WorkItemModal = (props: WorkItemModalProps) => {
   const { content, ...otherProps } = props;
   return (
     <Modal {...otherProps}>
-      {content ? <WorkItemModalContent {...content} /> : <></>}
+      {content ? <WorkItemModalContent doCose={props.onClose} {...content} /> : <></>}
     </Modal>
   );
 };

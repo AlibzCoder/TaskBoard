@@ -1,29 +1,63 @@
-import { AxiosRequestConfig } from 'axios';
-import { BaseQueryFn, EndpointBuilder } from '@reduxjs/toolkit/query';
-import ApiRoutes from '../../api/ApiRoutes';
+import { AxiosRequestConfig } from "axios";
+import { BaseQueryFn, EndpointBuilder } from "@reduxjs/toolkit/query";
+import ApiRoutes from "../../api/ApiRoutes";
+import UserModel from "../../types/UserModel";
+import {
+  CreateNewTaskRequestModel,
+  DeleteTaskRequestModel,
+  GetAllTodosPayload,
+  StatusesResponseModel,
+  UpdateTaskRequestModel,
+} from "../../types/api";
+import { TaskItem } from "../../types/todos";
 
-
-const ApiEndPoints = (builder: EndpointBuilder<BaseQueryFn, string, string>) => ({
-  // getConnections: builder.query<ConnectionModel[], void>({
-  //   query: (): AxiosRequestConfig => ({
-  //     url: ApiRoutes.GetConnection,
-  //     method: 'GET',
-  //   }),
-  // }),
-  // addConnection: builder.mutation<void, AddConnectionPayload>({
-  //   query: (payload: AddConnectionPayload): AxiosRequestConfig => ({
-  //     url: ApiRoutes.CreateConnection,
-  //     method: 'POST',
-  //     data: payload,
-  //   }),
-  // }),
-  // updateConnection: builder.mutation<void, UpdateConnectionPayload>({
-  //   query: (payload: UpdateConnectionPayload): AxiosRequestConfig => ({
-  //     url: ApiRoutes.UpdateConnection,
-  //     method: 'POST',
-  //     data: payload,
-  //   }),
-  // }),
+const ApiEndPoints = (
+  builder: EndpointBuilder<BaseQueryFn, string, string>
+) => ({
+  getAllUsers: builder.query<UserModel[], void>({
+    query: (): AxiosRequestConfig => ({
+      url: ApiRoutes.GetAllUsers,
+      method: "GET",
+    }),
+  }),
+  getDefinedStatuses: builder.query<StatusesResponseModel, void>({
+    query: (): AxiosRequestConfig => ({
+      url: ApiRoutes.GetStatuses,
+      method: "GET",
+    }),
+  }),
+  getAllTodos: builder.query<TaskItem[], GetAllTodosPayload>({
+    query: (payload: GetAllTodosPayload): AxiosRequestConfig => ({
+      url: ApiRoutes.GetTodos,
+      method: "GET",
+      params: payload,
+    }),
+  }),
+  addTask: builder.mutation<void, CreateNewTaskRequestModel>({
+    query: (payload: CreateNewTaskRequestModel): AxiosRequestConfig => ({
+      url: ApiRoutes.CreateTodo,
+      method: "POST",
+      data: payload,
+    }),
+  }),
+  updateTask: builder.mutation<void, UpdateTaskRequestModel>({
+    query: ({
+      param,
+      ...payload
+    }: UpdateTaskRequestModel): AxiosRequestConfig => ({
+      url: ApiRoutes.UpdateTodo,
+      method: "POST",
+      data: payload,
+      params: param,
+    }),
+  }),
+  deleteTask: builder.mutation<void, DeleteTaskRequestModel>({
+    query: ({ param }: DeleteTaskRequestModel): AxiosRequestConfig => ({
+      url: ApiRoutes.RemoveTodo,
+      method: "POST",
+      params: param,
+    }),
+  }),
   // deleteConnection: builder.mutation<void, DeleteOrDownlaodConnectionPayload>({
   //   query: (payload: DeleteOrDownlaodConnectionPayload): AxiosRequestConfig => ({
   //     url: ApiRoutes.DeleteConnection,

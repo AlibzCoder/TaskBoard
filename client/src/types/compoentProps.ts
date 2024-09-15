@@ -1,20 +1,12 @@
 import React from "react";
-import { TaskItem, User, WorkflowStep } from "./todos";
+import { TaskItem, WorkflowStep } from "./todos";
 import { TextFieldProps, TypographyProps } from "@mui/material";
+import UserModel from "./UserModel";
 
 export interface WorkflowListProps extends React.ComponentProps<"ul"> {
   workFlowItem: WorkflowStep;
-  workFlowTasks: WorkflowListItemProps[];
+  workFlowTasks: TaskItem[];
   itemOnClick?: (e: WorkflowListItemComponentProps | any) => void;
-}
-
-export interface WorkflowListItemProps extends TaskItem {
-  assignedTo: string;
-}
-
-export interface DraggableWrapperProps extends React.ComponentProps<"div"> {
-  dragId: number | string | any;
-  data?: object | any;
 }
 export interface SortableWrapperProps extends React.ComponentProps<"div"> {
   dragId: number | string | any;
@@ -28,7 +20,7 @@ export interface WorkItemModalProps {
 }
 export interface WorkflowListItemComponentProps {
   workFlowStep: WorkflowStep;
-  item: WorkflowListItemProps;
+  item: TaskItem;
   onClick?: (e: WorkflowListItemComponentProps | any) => void;
 }
 
@@ -36,11 +28,12 @@ export interface DisplableEditTextFieldProps
   extends React.ComponentProps<"div"> {
   textFieldProps: TextFieldProps;
   typographyProps: TypographyProps;
-  shouldExtend?: boolean
+  shouldExtend?: boolean;
 }
 
 export interface WorkItemModalContentProps {
-  workItem: WorkflowListItemProps;
+  workItem: TaskItem;
   workFlowSteps: WorkflowStep[];
-  users: User[]
+  users: UserModel[];
+  doCose?: (e: boolean) => void;
 }

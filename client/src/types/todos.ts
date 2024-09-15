@@ -1,5 +1,5 @@
 export interface TaskItem {
-  id: string;
+  _id: string;
   user: string;
   title?: string;
   description?: string;
@@ -9,6 +9,7 @@ export interface TaskItem {
   lastUpdatedDate?: string | Date | any;
   effort?: number | any;
   estimation?: number | any;
+  assignedTo?: string;
 }
 export interface WorkflowStep {
   id: string;
@@ -16,8 +17,4 @@ export interface WorkflowStep {
   shortLabel: string;
   color: any | object | string;
   canAdd: boolean;
-}
-export interface User{
-  id: number | string,
-  name: string
 }

@@ -33,6 +33,14 @@ components:
         userName:
           type: string
           description: Assign to username
+        status:
+          type: string
+          description: Assign to username
+          default: created
+          enum:
+            - created
+            - active
+            - done  
     Todo:
       type: object
       properties:

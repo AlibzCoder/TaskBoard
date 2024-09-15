@@ -7,7 +7,7 @@ const InitDB = () : Promise<Mongoose> => {
 
     return new Promise(async (res, rej)=>{
         try{
-            const Client = await connect(`mongodb://${USERNAME}:${PASSWORD}@${HOST_NAME}/${ADMIN_DB_NAME}`);
+            const Client = await connect(`mongodb+srv://${USERNAME}:${PASSWORD}@${HOST_NAME}/${ADMIN_DB_NAME}`);
             Client.connection.useDb(APP_DB_NAME)
             res(Client)
         }catch(e){

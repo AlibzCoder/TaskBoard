@@ -150,8 +150,8 @@ function SignUpPage() {
                 name="firstName"
                 label="First Name"
                 variant="standard"
-                error={Boolean(passwordValid)}
-                helperText={passwordValid}
+                error={Boolean(firstNameValid)}
+                helperText={firstNameValid}
                 onChange={(e) => setFirstName(e.target?.value?.trim())}
                 onBlur={handleValidation}
                 required
@@ -161,8 +161,8 @@ function SignUpPage() {
                 name="lastName"
                 label="Last Name"
                 variant="standard"
-                error={Boolean(passwordValid)}
-                helperText={passwordValid}
+                error={Boolean(lastNameValid)}
+                helperText={lastNameValid}
                 onChange={(e) => setLastName(e.target?.value?.trim())}
                 onBlur={handleValidation}
                 required
@@ -172,8 +172,8 @@ function SignUpPage() {
                 name="email"
                 label="Email"
                 variant="standard"
-                error={Boolean(passwordValid)}
-                helperText={passwordValid}
+                error={Boolean(emailValid)}
+                helperText={emailValid}
                 onChange={(e) => setEmail(e.target?.value?.trim())}
                 onBlur={handleValidation}
                 required

@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"prebuild": "del-cli dist/",
+		"prebuild": "npm install && del-cli dist/",
 		"build:server": "npm install && tsc && tsc-esm && tscp",
 		"build:client": "cd client && npm install && npm run build",
 		"build": "npm run build:server && npm run build:client",

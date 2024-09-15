@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useAppDispatch } from "../hooks/reduxHooks";
 import { getUser } from "../store/slices/userSlice";
 import { doLogout } from "../store/slices/authSlice";

@@ -8,7 +8,7 @@ const options = {
   definition: {
     openapi: "3.1.0",
     info: {
-      title: "Saya Backend API Task",
+      title: "Todo Backend API Task",
       version: "0.1.0",
       description:
         "This is a simple CRUD API application made with Express and documented with Swagger",

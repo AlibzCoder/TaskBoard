@@ -3,11 +3,11 @@ import UserRouter from "./routes/user";
 import TodoRouter from "./routes/todo";
 
 export const DBCredentials = {
-  HOST_NAME: "127.0.0.1",
+  HOST_NAME: "todo.nqeff.mongodb.net",
   ADMIN_DB_NAME: "admin",
-  APP_DB_NAME: "saya",
+  APP_DB_NAME: "todoApp",
   USERNAME: "root",
-  PASSWORD: "123456789",
+  PASSWORD: "qjwnlRrdDut1HOIq",
   UsersCollection: "users",
   TodosCollection: "todos",
 };
